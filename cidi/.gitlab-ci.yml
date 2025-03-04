@@ -1,0 +1,24 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  image: golang:1.18
+  script:
+    - go mod tidy
+    - go build -o app
+    - docker build -t myrepo/secure-ai:latest .
+
+test:
+  image: golang:1.18
+  script:
+    - go test ./...
+
+deploy:
+  image: google/cloud-sdk
+  script:
+    - gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
+    - gcloud container clusters get-credentials my-cluster --zone us-central1
+    - helm upgrade --install secure-ai ./helm-chart
+

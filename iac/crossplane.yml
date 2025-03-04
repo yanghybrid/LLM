@@ -1,0 +1,12 @@
+apiVersion: aws.crossplane.io/v1alpha1
+kind: RDSInstance
+metadata:
+  name: secure-ai-db
+spec:
+  forProvider:
+    region: us-west-2
+    dbInstanceClass: db.t3.medium
+    allocatedStorage: 20
+    engine: postgres
+    engineVersion: "13"
+
